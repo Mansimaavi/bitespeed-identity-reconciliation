@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { env } from './config/env';
 import identifyRoutes from './routes/identifyRoutes';
 import { errorHandler } from './middleware/errorHandler';
@@ -7,7 +7,7 @@ import { requestLogger } from './middleware/requestLogger';
 const app = express();
 
 // CORS headers for cross-origin requests
-app.use((_req, res, next) => {
+app.use((_req: Request, res: Response, next: NextFunction) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(requestLogger);
 
 // Root endpoint with API info
-app.get('/', (_req, res) => {
+app.get('/', (_req: Request, res: Response) => {
   res.status(200).json({
     name: 'Bitespeed Identity Reconciliation API',
     version: '1.0.0',
@@ -26,11 +26,11 @@ app.get('/', (_req, res) => {
       identify: 'POST /identify',
       health: 'GET /health',
     },
-    documentation: 'https://github.com/YOUR_USERNAME/bitespeed-identity-reconciliation',
+    documentation: 'https://github.com/Mansimaavi/bitespeed-identity-reconciliation',
   });
 });
 
-app.get('/health', (_req, res) => {
+app.get('/health', (_req: Request, res: Response) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
