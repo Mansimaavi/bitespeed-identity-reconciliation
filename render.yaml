@@ -1,0 +1,17 @@
+# Render Blueprint - deploy via Dashboard or: render deploy
+# Docs: https://render.com/docs/deploy-node-express-app
+services:
+  - type: web
+    name: bitespeed-identity
+    runtime: node
+
+    # Build: install deps, generate Prisma client, compile TypeScript
+    buildCommand: npm install && npm run build
+
+    # Start: run migrations then start server
+    startCommand: npx prisma migrate deploy && npm start
+
+    # Set DATABASE_URL in Dashboard: New → PostgreSQL, then paste Internal URL
+    envVars:
+      - key: NODE_ENV
+        value: production
